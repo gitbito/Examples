@@ -16,8 +16,7 @@ class Business(Model):
     id = fields.IntField(pk=True, index=True)
     business_name = fields.CharField(max_length=30, null=False, unique=True)
     city = fields.CharField(max_length=100, null=False, default="Unspecified")
-    region = fields.CharField(
-        max_length=100, null=False, default="Unspecified")
+    region = fields.CharField(max_length=100, null=False, default="Unspecified")
     business_description = fields.TextField(null=True)
     logo = fields.CharField(max_length=200, null=False, default="default.jpg")
     owner = fields.ForeignKeyField("models.User", related_name="business")
@@ -32,26 +31,51 @@ class Product(Model):
     percentage_discount = fields.IntField()
     offer_expiration_date = fields.DateField(default=datetime.utcnow)
     product_image = fields.CharField(
-        max_length=200, null=False, default="productDefault.jpg")
+        max_length=200, null=False, default="productDefault.jpg"
+    )
     date_published = fields.DatetimeField(default=datetime.utcnow)
-    business = fields.ForeignKeyField(
-        "models.Business", related_name="product")
+    business = fields.ForeignKeyField("models.Business", related_name="product")
 
 
-user_pydantic = pydantic_model_creator(
-    User, name="User", exclude=("is_verifide", ))
+user_pydantic = pydantic_model_creator(User, name="User", exclude=("is_verifide",))
 
 user_pydanticIn = pydantic_model_creator(
-    User, name="UserIn", exclude_readonly=True, exclude=("is_verifide", "join_date"))
+    User, name="UserIn", exclude_readonly=True, exclude=("is_verifide", "join_date")
+)
 
-user_pydanticOut = pydantic_model_creator(
-    User, name="UserOut", exclude=("password", ))
+user_pydanticOut = pydantic_model_creator(User, name="UserOut", exclude=("password",))
 
 
 business_pydantic = pydantic_model_creator(Business, name="Business")
 business_pydanticIn = pydantic_model_creator(
-    Business, name="BusinessIn", exclude_readonly=True, exclude=("logo", ))
+    Business, name="BusinessIn", exclude_readonly=True, exclude=("logo",)
+)
 
 product_pydantic = pydantic_model_creator(Product, name="Product")
 product_pydanticIn = pydantic_model_creator(
-    Product, name="ProductIn", exclude=("percentage_discount", "id", "product_image", "date_published"))
+    Product,
+    name="ProductIn",
+    exclude=("percentage_discount", "id", "product_image", "date_published"),
+)
+
+
+class Cart(Model):
+    id = fields.IntField(pk=True, index=True)
+    user = fields.ForeignKeyField("models.User", related_name="cart")
+    created_at = fields.DatetimeField(default=datetime.utcnow)
+    updated_at = fields.DatetimeField(default=datetime.utcnow)
+
+
+class CartItem(Model):
+    id = fields.IntField(pk=True, index=True)
+    cart = fields.ForeignKeyField("models.Cart", related_name="items")
+    product = fields.ForeignKeyField("models.Product", related_name="cart_items")
+    quantity = fields.IntField(default=1)
+    price = fields.DecimalField(max_digits=10, decimal_places=2)
+
+
+class Wishlist(Model):
+    id = fields.IntField(pk=True, index=True)
+    user = fields.ForeignKeyField("models.User", related_name="wishlist")
+    product = fields.ForeignKeyField("models.Product", related_name="wishlists")
+    created_at = fields.DatetimeField(default=datetime.utcnow)
