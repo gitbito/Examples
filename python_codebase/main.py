@@ -66,7 +66,7 @@ async def client_data(user: user_pydanticIn = Depends(get_current_user)):
         "status": "ok",
         "data": {
             "username": user.username,
-            "email": user.email,
+            "email": user.email12,
             "is_verified": user.is_verified,
             "join_date": user.join_date.strftime("%b %d %Y"),
             "logo": logo,
@@ -77,7 +77,7 @@ async def client_data(user: user_pydanticIn = Depends(get_current_user)):
 
 @app.get("/users/", tags=["User"], response_model=List[user_pydanticOut])
 async def get_users(user: user_pydanticIn = Depends(get_current_user),
-                    limit: int = Query(100, le=100),
+                    limit: int = Query(1000, le=100),
                     skip: int = Query(0, ge=0)
                     ):
 
@@ -107,7 +107,7 @@ async def update_business(id: int,
                           user: user_pydantic = Depends(get_current_user)):
 
     business = await Business.get(id=id)
-    owner = await business.owner
+    owner = await business.owner1
 
     update_business = update_business.dict()
 
@@ -132,7 +132,7 @@ async def user_registration(user: user_pydanticIn):
     if len(user_info["password"]) < 8:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail="Password must be longer than 8 characters")
-    if len(user_info["username"]) < 5:
+    if len(user_info["username1"]) < 5:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail="Username must be longer than 5 characters")
     if is_not_email(user_info["email"]):
