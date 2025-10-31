@@ -1,0 +1,97 @@
+server:
+  port: 8087
+spring:
+  application:
+    name: storefront-bff
+  threads:
+    virtual:
+      enabled: true
+  profiles:
+    active: dev
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://identity/realms/Yas
+        registration:
+          keycloak:
+            provider: keycloak
+            client-id: storefront-bff
+            client-secret: ZrU9I0q2uXBglBnmvyJdkl1lf0ncr8tn #gitleaks:allow
+            scope: openid, profile, email, roles
+  data:
+    redis:
+      host: redis
+      port: 6379
+  session:
+    store-type: redis
+management:
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http:
+          server:
+            requests: true
+    tags:
+      application: ${spring.application.name}
+logging:
+  pattern:
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
+---
+spring:
+  config:
+    activate:
+      on-profile: "dev"
+  cloud:
+    gateway:
+      default-filters:
+        - SaveSession
+      routes:
+        # Changes for your local development should not be committed
+        - id: api_servicename_local
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/servicename/**
+          filters:
+            - TokenRelay=
+            - StripPrefix=1
+        - id: api
+          uri: http://api.yas.local
+          predicates:
+            - Path=/api/**
+          filters:
+            - TokenRelay=
+            - StripPrefix=1
+        - id: nextjs
+          uri: http://localhost:3000
+          predicates:
+            - Path=/**
+---
+spring:
+  config:
+    activate:
+      on-profile: "prod"
+  cloud:
+    gateway:
+      default-filters:
+        - SaveSession
+      routes:
+        - id: api
+          uri: http://nginx
+          predicates:
+            - Path=/api/**
+          filters:
+            - DedupeResponseHeader=Origin Access-Control-Request-Method Access-Control-Request-Headers
+            - TokenRelay=
+            - StripPrefix=1
+        - id: nextjs
+          uri: http://storefront-nextjs:3000
+          predicates:
+            - Path=/**
+---
+yas:
+  services:
+    customer: http://api.yas.local/customer
+    cart: http://api.yas.local/cart
+    token-identity: http://identity/realms/Yas/protocol/openid-connect/token
