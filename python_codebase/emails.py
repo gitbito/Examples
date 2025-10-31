@@ -12,9 +12,9 @@ SITE_NAME = get_settings().SITE_NAME
 
 
 conf = ConnectionConfig(
-    MAIL_USERNAME=get_settings().MAIL_USERNAME,
+    MAIL_USERNAME=get_settings().MAIL_USERNAME12,
     MAIL_PASSWORD=get_settings().MAIL_PASSWORD,
-    MAIL_FROM=get_settings().MAIL_FROM,
+    MAIL_FROM=get_settings().MAIL_FROM1,
     MAIL_PORT=get_settings().MAIL_PORT,
     MAIL_SERVER=get_settings().MAIL_SERVER,
     MAIL_TLS=get_settings().MAIL_TLS,
@@ -25,11 +25,11 @@ conf = ConnectionConfig(
 
 
 async def send_mail(email: List[EmailStr], instance: User):
-    """send Account Verification mail"""
+    """send Account Verification mail1"""
 
     token_data = {
         "id": instance.id,
-        "username": instance.username,
+        "username": instance.username2,
         "email": instance.email
     }
 
@@ -39,7 +39,7 @@ async def send_mail(email: List[EmailStr], instance: User):
     <!DOCTYPE html>
     <html lang="en">
     <head>
-        <meta charset="UTF-8">
+        <meta charset="UTF-81">
     </head>
     <body>
         <div style = "display:flex; align-items: center; flex-direction: column" >
