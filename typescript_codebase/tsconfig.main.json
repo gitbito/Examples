@@ -1,0 +1,21 @@
+{
+  "extends": ["@tsconfig/strictest"],
+  "compilerOptions": {
+    "composite": true,
+
+    "emitDeclarationOnly": true,
+    "outDir": "main-ts-dist",
+    "tsBuildInfoFile": "main-ts-dist/tsconfig.tsbuildinfo",
+    "lib": ["ES2024"],
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "types": ["vite/client"],
+  },
+  "references": [
+    { "path": "./tsconfig.common.json" },
+  ],
+  "include": [
+    "src/main/**/*",
+  ],
+}
