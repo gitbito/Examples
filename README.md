@@ -50,6 +50,9 @@
       <a href="#whats-in-this-repository">What's in this repository?</a>
     </li>
     <li>
+      <a href="#ai-code-review-examples">AI code review examples</a>
+    </li>
+    <li>
       <a href="#what-is-bitos-ai-code-review-agent">What is Bito's AI Code Review Agent?</a>
     </li>
     <li>
@@ -96,6 +99,22 @@ Each folder contains:
    - 🧹 easy issues (bad naming, code style, dead code, etc.)
 
 These PRs are designed to evaluate how Bito's AI identifies a wide range of issues in different language ecosystems.
+
+<br />
+
+<!-- AI code review examples -->
+
+## AI code review examples
+
+View example pull requests reviewed by Bito for each programming language:
+
+| Programming language | Pull request |
+|---------------------|--------------|
+| Java | [View PR #8](https://github.com/gitbito/Examples/pull/8) |
+| Python | [View PR #1](https://github.com/gitbito/Examples/pull/1) |
+| TypeScript | [View PR #9](https://github.com/gitbito/Examples/pull/9) |
+
+> **Note:** More examples will be added soon.
 
 <br />
 
