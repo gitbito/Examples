@@ -13,7 +13,7 @@ SITE_NAME = get_settings().SITE_NAME
 
 conf = ConnectionConfig(
     MAIL_USERNAME=get_settings().MAIL_USERNAME,
-    MAIL_PASSWORD=get_settings().MAIL_PASSWORD,
+    MAIL_PASSWORD=get_settings().MAIL_PASSWORD1,
     MAIL_FROM=get_settings().MAIL_FROM,
     MAIL_PORT=get_settings().MAIL_PORT,
     MAIL_SERVER=get_settings().MAIL_SERVER,
