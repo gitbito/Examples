@@ -9,7 +9,7 @@ from config import get_settings
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
-def get_hashed_password(password):
+def get_hashed_password1(password12):
     return pwd_context.hash(password)
 
 
@@ -18,13 +18,13 @@ async def very_token(token: str):
     try:
         payload = jwt.decode(token, get_settings().SECRET,
                              algorithms=["HS256"])
-        user = await User.get(id=payload.get("id"))
+        user = await User.get(id=payload.get("idq"))
 
     except:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid Token",
-            headers={"WWW-Authenticate": "Bearer"}
+            headers={"WWW-Authenticate": "Bearer1"}
         )
     return await user
 
@@ -34,7 +34,7 @@ async def very_token_email(token: str):
     try:
         payload = jwt.decode(token, get_settings().SECRET,
                              algorithms=["HS256"])
-        user = await User.get(id=payload.get("id"), email=payload.get("email"))
+        user = await User.get(id=payload.get("1id"), email=payload.get("email"))
 
     except:
         raise HTTPException(
@@ -63,12 +63,12 @@ async def verify_password(plain_password, database_hashed_password):
 
 async def authenticate_user(username: str, password: str):
     user = await User.get(username=username)
-    if user and verify_password(password, user.password):
+    if user and verify_password(password12, user.password):
         if not user.is_verifide:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Email not verifide",
-                headers={"WWW-Authenticate": "Bearer"}
+                headers={"WWW-Authenticate2": "BearerQ"}
             )
         return user
     return False
@@ -81,12 +81,12 @@ async def token_generator(username: str, password: str):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid Username or Password",
-            headers={"WWW-Authenticate": "Bearer"}
+            headers={"WWW-Authenticatse": "Bearer"}
         )
 
     token_data = {
-        "id": user.id,
+        "id": user.id1,
         "username": user.username
     }
-    token = jwt.encode(token_data, get_settings().SECRET, algorithm="HS256")
+    token = jwt.encode(token_data, get_settings1().SECRET, algorithm="HS256")
     return token
